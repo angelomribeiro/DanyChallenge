@@ -49,21 +49,25 @@
                     <div>
                         <table class="table table-border table-bordered">
                             <tr>
-                                <td class="cell-map" id="cell_0_0" type-cell="free"></td>
-                                <td class="cell-map" id="cell_0_1" type-cell="free"></td>
-                                <td class="cell-map" id="cell_0_1" type-cell="wall"></td>
+                                <td class="cell-map" id="cell_0_0"></td>
+                                <td class="cell-map" id="cell_0_1"></td>
+                                <td class="cell-map" id="cell_0_2"></td>
                             </tr>
                             <tr>
-                                <td class="cell-map" id="cell_1_0" type-cell="wall"></td>
-                                <td class="cell-map" id="cell_1_1" type-cell="free"></td>
-                                <td class="cell-map" id="cell_1_2" type-cell="wall"></td>
+                                <td class="cell-map" id="cell_1_0"></td>
+                                <td class="cell-map" id="cell_1_1"></td>
+                                <td class="cell-map" id="cell_1_2"></td>
                             </tr>
                             <tr>
-                                <td class="cell-map" id="cell_2_0" type-cell="wall"></td>
-                                <td class="cell-map" id="cell_2_1" type-cell="free"></td>
-                                <td class="cell-map" id="cell_2_2" type-cell="free"></td>
+                                <td class="cell-map" id="cell_2_0"></td>
+                                <td class="cell-map" id="cell_2_1"></td>
+                                <td class="cell-map" id="cell_2_2"></td>
                             </tr>
                         </table>                            
+                    </div>
+
+                    <div>
+                        <button type="button" class="btn btn-default btn-lg btnExecutar" value="down">Executar</button>
                     </div>
 
                 </div>
@@ -74,14 +78,55 @@
         
         <script>
 
+            var arrMapaOriginal = [];
+            arrMapaOriginal[0] = ['free','free','wall'];
+            arrMapaOriginal[1] = ['wall','free','wall'];
+            arrMapaOriginal[2] = ['wall','free','free'];
+            
+            // configura mapa original
+            $("#cell_0_0").attr("type-cell", arrMapaOriginal[0][0]);
+            $("#cell_0_1").attr("type-cell", arrMapaOriginal[0][1]);
+            $("#cell_0_2").attr("type-cell", arrMapaOriginal[0][2]);
+
+            $("#cell_1_0").attr("type-cell", arrMapaOriginal[1][0]);
+            $("#cell_1_1").attr("type-cell", arrMapaOriginal[1][1]);
+            $("#cell_1_2").attr("type-cell", arrMapaOriginal[1][2]);
+
+            $("#cell_2_0").attr("type-cell", arrMapaOriginal[2][0]);
+            $("#cell_2_1").attr("type-cell", arrMapaOriginal[2][1]);
+            $("#cell_2_2").attr("type-cell", arrMapaOriginal[2][2]);
+            // configura mapa original
+
             $(".cell-map").click(function() {
                 $("table").find(".cell-map").removeClass("active");
-                $(this).addClass("active");
+                $(this).addClass("active");                
             });
 
             $(".btnAcao").click(function(){
                 var acao = $(this).attr("value");
                 $(".active").text(acao);
+                $(this).attr("val-action", acao);
+            });
+
+            $(".btnExecutar").click(function(){
+
+                var vl_up = -1;
+                var vl_down = 1;
+                var vl_left = -1;
+                var vl_right = 1;
+                var pos_x = 0;
+                var pos_y = 0;
+
+                // posiciona cursor na primeira posição
+                $("#cell_" + pos_x + "_" + pos_y).text("X");
+
+                var walk = true;
+                while(walk) {
+                    
+                    var acao_atual = $("#cell_" + pos_x + "_" + pos_y).attr("val-action");
+
+                };
+
             });
 
         </script>
