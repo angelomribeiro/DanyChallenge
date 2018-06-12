@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Dany Challenger</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+        <style>
+            [type-cell~="wall"] {
+                background-color: lightblue;
+            }
+            td {
+                width: 100px;
+                height: 100px;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div class="container">
+
+            <!-- inicio : comandos -->
+            <div class="row">
+                <div class="col-md-offset-3 col-md-6">
+                    
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-primary btn-lg btn-block btnAcao" value="left"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span></button>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-primary btn-lg btn-block btnAcao" value="right"><span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></button>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-primary btn-lg btn-block btnAcao" value="up"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></button>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-primary btn-lg btn-block btnAcao" value="down"><span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span></button>
+                    </div>
+
+                </div>
+            </div>
+            <!-- inicio : comandos -->
+
+            <hr />
+
+            <!-- inicio : mapa -->
+            <div class="row">
+                <div class="col-md-offset-3 col-md-6">
+                    
+                    <div>
+                        <table class="table table-border table-bordered">
+                            <tr>
+                                <td class="cell-map" id="cell_0_0" type-cell="free"></td>
+                                <td class="cell-map" id="cell_0_1" type-cell="free"></td>
+                                <td class="cell-map" id="cell_0_1" type-cell="wall"></td>
+                            </tr>
+                            <tr>
+                                <td class="cell-map" id="cell_1_0" type-cell="wall"></td>
+                                <td class="cell-map" id="cell_1_1" type-cell="free"></td>
+                                <td class="cell-map" id="cell_1_2" type-cell="wall"></td>
+                            </tr>
+                            <tr>
+                                <td class="cell-map" id="cell_2_0" type-cell="wall"></td>
+                                <td class="cell-map" id="cell_2_1" type-cell="free"></td>
+                                <td class="cell-map" id="cell_2_2" type-cell="free"></td>
+                            </tr>
+                        </table>                            
+                    </div>
+
+                </div>
+            </div>
+            <!-- fim : mapa -->
+
+        </div>
+        
+        <script>
+
+            $(".cell-map").click(function() {
+                $("table").find(".cell-map").removeClass("active");
+                $(this).addClass("active");
+            });
+
+            $(".btnAcao").click(function(){
+                var acao = $(this).attr("value");
+                $(".active").text(acao);
+            });
+
+        </script>
+    </body>
+</html>
