@@ -49,19 +49,19 @@
                     <div>
                         <table class="table table-border table-bordered">
                             <tr>
-                                <td class="cell-map" id="cell_0_0"></td>
-                                <td class="cell-map" id="cell_0_1"></td>
-                                <td class="cell-map" id="cell_0_2"></td>
+                                <td class="cell-map" id="cell_0_0" has-walked="0"></td>
+                                <td class="cell-map" id="cell_0_1" has-walked="0"></td>
+                                <td class="cell-map" id="cell_0_2" has-walked="0"></td>
                             </tr>
                             <tr>
-                                <td class="cell-map" id="cell_1_0"></td>
-                                <td class="cell-map" id="cell_1_1"></td>
-                                <td class="cell-map" id="cell_1_2"></td>
+                                <td class="cell-map" id="cell_1_0" has-walked="0"></td>
+                                <td class="cell-map" id="cell_1_1" has-walked="0"></td>
+                                <td class="cell-map" id="cell_1_2" has-walked="0"></td>
                             </tr>
                             <tr>
-                                <td class="cell-map" id="cell_2_0"></td>
-                                <td class="cell-map" id="cell_2_1"></td>
-                                <td class="cell-map" id="cell_2_2"></td>
+                                <td class="cell-map" id="cell_2_0" has-walked="0"></td>
+                                <td class="cell-map" id="cell_2_1" has-walked="0"></td>
+                                <td class="cell-map" id="cell_2_2" has-walked="0"></td>
                             </tr>
                         </table>                            
                     </div>
@@ -78,10 +78,23 @@
         
         <script>
 
+            var x_max = 3;
+            var y_max = 3;
+            var typeWall = 'wall';
+            var typeFree = 'free';
+            var walk = true;
+            var vl_up = -1;
+            var vl_down = 1;
+            var vl_left = -1;
+            var vl_right = 1;
+            var pos_x = 0;
+            var pos_y = 0;
+            var controle = 1;
+
             var arrMapaOriginal = [];
-            arrMapaOriginal[0] = ['free','free','wall'];
-            arrMapaOriginal[1] = ['wall','free','wall'];
-            arrMapaOriginal[2] = ['wall','free','free'];
+            arrMapaOriginal[0] = [typeFree, typeFree, typeWall];
+            arrMapaOriginal[1] = [typeWall, typeFree, typeWall];
+            arrMapaOriginal[2] = [typeWall, typeFree, typeFree];
             
             // configura mapa original
             $("#cell_0_0").attr("type-cell", arrMapaOriginal[0][0]);
@@ -105,29 +118,79 @@
             $(".btnAcao").click(function(){
                 var acao = $(this).attr("value");
                 $(".active").text(acao);
-                $(this).attr("val-action", acao);
+                $(".active").attr("val-action", acao);
             });
 
             $(".btnExecutar").click(function(){
 
-                var vl_up = -1;
-                var vl_down = 1;
-                var vl_left = -1;
-                var vl_right = 1;
-                var pos_x = 0;
-                var pos_y = 0;
+                walk = true;
+                pos_x = 0;
+                pos_y = 0;
+                controle = 1;
 
-                // posiciona cursor na primeira posição
-                $("#cell_" + pos_x + "_" + pos_y).text("X");
+                var timer = setTimeout(executeWalk, 2000);
 
-                var walk = true;
-                while(walk) {
-                    
-                    var acao_atual = $("#cell_" + pos_x + "_" + pos_y).attr("val-action");
-
-                };
+                if (!walk)
+                    clearTimeout(timer);
 
             });
+
+            // inicio : function que realiza processo de caminhada no mapa
+            var executeWalk = function() {
+                
+                //while(walk) {
+                    
+                    $("#cell_" + pos_y + "_" + pos_x).text("X");
+                    var acao_atual = $("#cell_" + pos_y + "_" + pos_x).attr("val-action");
+
+                    // informa que posicao atual ja foi percorrida
+                    $("#cell_" + pos_y + "_" + pos_x).attr("has-walked", 1);
+
+                    // verifica o tipo de acao
+                    if (acao_atual == 'up') pos_y += vl_up;
+                    if (acao_atual == 'down') pos_y += vl_down;
+                    if (acao_atual == 'left') pos_x += vl_left;
+                    if (acao_atual == 'right') pos_x += vl_right;
+
+                    // verifica se esta fora do mapa
+                    if (pos_x < 0 || pos_y < 0)
+                        walk = false;
+                    
+                    // verifica se esta fora do mapa
+                    if (pos_x > x_max || pos_y > y_max)
+                        walk = false;
+                    
+                    // controle para evitar loop infinto
+                    if (controle > x_max) 
+                        walk = false;
+                    
+                    // verifica se o próximo passo será um obstaculo
+                    if (isStop(pos_x, pos_y))
+                        walk = false;
+
+                    controle++;
+                //};
+
+            };
+            // fim : function que realiza processo de caminhada no mapa
+
+            var isStop = function(pX, pY) {
+
+                // verifica se proximo passo será fora do mapa                
+                if (pX > x_max || pY > y_max)
+                    return false;
+                
+                // verfica se proximo passo sera um obstaculo
+                var cellType = $("#cell_" + pY + "_" + pX).attr("cell-type");
+                if (cellType == typeWall)
+                    return false;
+                
+                // verifica se caminho ja foi percorrido anteriormente
+                var hasWalked = $("#cell_" + pY + "_" + pX).attr("cell-type");
+                if (hasWalked == 1)
+                return false;
+
+            };
 
         </script>
     </body>
